@@ -5,12 +5,14 @@ import Card from "./components/Card";
 import Course from "./components/Course";
 import { NotificationIcon } from "./components/Icons";
 import Logo from "./components/Logo";
+import Menu from "./components/Menu";
 import styled from "./styled-components";
 
 export default class App extends React.Component {
   render() {
     return (
       <Container>
+        <Menu />
         <SafeAreaView>
           <ScrollView style={{ height: "100%" }}>
             <TitleBar>
