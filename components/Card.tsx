@@ -2,27 +2,59 @@ import React from "react";
 import { Image, Text, View } from "react-native";
 import styled from "../styled-components";
 
-const Card = () => (
+interface IProps {
+  title: string;
+  image: any;
+  logo: any;
+  caption: string;
+  subtitle: string;
+}
+
+const Card: React.FC<IProps> = ({ title, image, logo, caption, subtitle }) => (
   <Container>
     <Cover>
-      <CoverBG source={{ uri: "https://source.unsplash.com/100x100" }} />
-      <Title>Styled Components</Title>
+      <CoverBG source={image} />
+      <Title>{title}</Title>
     </Cover>
     <Content>
-      <Logo source={{ uri: "https://source.unsplash.com/50x50" }} />
-      <Caption>React Native</Caption>
-      <Subtitle>5 of 12 sections</Subtitle>
+      <Logo source={logo} />
+      <Wrapper>
+        <Caption>{caption}</Caption>
+        <Subtitle>{subtitle}</Subtitle>
+      </Wrapper>
     </Content>
   </Container>
 );
 
-const Content = styled(View)``;
+const Content = styled(View)`
+  padding-left: 20px;
+  flex-direction: row;
+  align-items: center;
+  height: 80px;
+`;
 
-const Logo = styled(Image)``;
+const Logo = styled(Image)`
+  width: 44px;
+  height: 44px;
+`;
 
-const Caption = styled(Text)``;
+const Wrapper = styled(View)`
+  margin-left: 10px;
+`;
 
-const Subtitle = styled(Text)``;
+const Caption = styled(Text)`
+  color: #3c4560;
+  font-size: 20px;
+  font-weight: 600;
+`;
+
+const Subtitle = styled(Text)`
+  color: #b8bece;
+  font-size: 15px;
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-top: 4px;
+`;
 
 const Cover = styled(View)`
   width: 100%;
