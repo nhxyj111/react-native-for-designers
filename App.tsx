@@ -1,8 +1,8 @@
 import React from "react";
 import { Provider } from "react-redux";
 import { createStore, Store } from "redux";
+import AppNavigator from "./navigator/AppNavigator";
 import { menuReducer } from "./redux/reducers";
-import HomeScreen from "./screens/HomeScreen";
 
 // export interface IState {
 //   readonly action: string;
@@ -33,7 +33,7 @@ const store: Store = createStore(menuReducer);
 
 const App = () => (
   <Provider store={store}>
-    <HomeScreen />
+    <AppNavigator />
   </Provider>
 );
 

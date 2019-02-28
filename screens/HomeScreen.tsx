@@ -1,7 +1,6 @@
 import React from "react";
 import {
   Animated,
-  Image,
   SafeAreaView,
   ScrollView,
   StatusBar,
@@ -9,8 +8,10 @@ import {
   TouchableOpacity,
   View
 } from "react-native";
+import { NavigationInjectedProps } from "react-navigation";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import Avatar from "../components/Avatar";
 // import Ionicons from "react-native-vector-icons/Ionicons";
 import Card from "../components/Card";
 import Course from "../components/Course";
@@ -31,7 +32,14 @@ interface IState {
   opacity: Animated.Value;
 }
 
-class HomeScreen extends React.Component<IProps, IState> {
+class HomeScreen extends React.Component<
+  IProps & NavigationInjectedProps,
+  IState
+> {
+  static navigationOptions = {
+    header: null
+  };
+
   state = {
     scale: new Animated.Value(1),
     opacity: new Animated.Value(1)
@@ -89,7 +97,7 @@ class HomeScreen extends React.Component<IProps, IState> {
                     top: 0,
                     left: 20
                   }}>
-                  <Avatar source={require("../assets/avatar-default.jpg")} />
+                  <Avatar />
                 </TouchableOpacity>
                 <Title>Welcome back,</Title>
                 <Name>Meng</Name>
@@ -132,14 +140,19 @@ class HomeScreen extends React.Component<IProps, IState> {
                   paddingBottom: 30
                 }}>
                 {cards.map(({ title, image, subtitle, caption, logo }) => (
-                  <Card
+                  <TouchableOpacity
                     key={title}
-                    title={title}
-                    image={image}
-                    subtitle={subtitle}
-                    caption={caption}
-                    logo={logo}
-                  />
+                    onPress={() => {
+                      this.props.navigation.push("Section");
+                    }}>
+                    <Card
+                      title={title}
+                      image={image}
+                      subtitle={subtitle}
+                      caption={caption}
+                      logo={logo}
+                    />
+                  </TouchableOpacity>
                 ))}
               </ScrollView>
               <Subtitle>Popular Courses</Subtitle>
@@ -198,17 +211,18 @@ const Subtitle = styled(Text)`
   text-transform: uppercase;
 `;
 
-const Avatar = styled(Image)`
-  width: 44px;
-  height: 44px;
-  background: black;
-  border-radius: 22px;
-`;
+// const Avatar = styled(Image)`
+//   width: 44px;
+//   height: 44px;
+//   background: black;
+//   border-radius: 22px;
+// `;
 
 const Container = styled(View)`
   flex: 1;
   background-color: #f0f3f5;
-  border-radius: 10px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
 `;
 
 const AnimatedContainer = Animated.createAnimatedComponent(Container);
