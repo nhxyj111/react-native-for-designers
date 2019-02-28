@@ -8,12 +8,20 @@ import {
   View
 } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import MenuItem from "../components/MenuItem";
+import { closeMenu, MenuActions, showMenu } from "../redux/actions";
+import { IMenuState } from "../redux/reducers";
 import styled from "../styled-components";
 
 const screenHeight = Dimensions.get("window").height;
 
-interface IProps {}
+interface IProps {
+  status: MenuActions;
+  closeMenu: typeof closeMenu;
+  showMenu: typeof showMenu;
+}
 
 interface IState {
   top: Animated.Value;
@@ -25,15 +33,24 @@ class Menu extends React.Component<IProps, IState> {
   };
 
   componentDidMount() {
-    Animated.spring(this.state.top, {
-      toValue: 0
-    }).start();
+    this.toggleMenu();
+  }
+
+  componentDidUpdate() {
+    this.toggleMenu();
   }
 
   toggleMenu = () => {
-    Animated.spring(this.state.top, {
-      toValue: screenHeight
-    }).start();
+    if (this.props.status === MenuActions.MENU_SHOW) {
+      Animated.spring(this.state.top, {
+        toValue: 54
+      }).start();
+    }
+    if (this.props.status === MenuActions.MENU_CLOSE) {
+      Animated.spring(this.state.top, {
+        toValue: screenHeight
+      }).start();
+    }
   };
 
   render() {
@@ -45,7 +62,7 @@ class Menu extends React.Component<IProps, IState> {
           <Subtitle>Designer at Design+Code</Subtitle>
         </Cover>
         <TouchableOpacity
-          onPress={this.toggleMenu}
+          onPress={this.props.closeMenu}
           style={{
             position: "absolute",
             top: 120,
@@ -67,7 +84,24 @@ class Menu extends React.Component<IProps, IState> {
   }
 }
 
-export default Menu;
+function mapStateToProps(state: IMenuState) {
+  return { status: state.status };
+}
+
+function mapDispatchProps(dispatch: any) {
+  return bindActionCreators(
+    {
+      showMenu,
+      closeMenu
+    },
+    dispatch
+  );
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchProps
+)(Menu);
 
 const CoverBG = styled(Image)`
   position: absolute;
@@ -93,6 +127,8 @@ const Container = styled(View)`
   width: 100%;
   height: 100%;
   z-index: 100;
+  border-radius: 10px;
+  overflow: hidden;
 `;
 
 const AnimatedContainer = Animated.createAnimatedComponent(Container);
