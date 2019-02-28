@@ -139,18 +139,20 @@ class HomeScreen extends React.Component<
                 style={{
                   paddingBottom: 30
                 }}>
-                {cards.map(({ title, image, subtitle, caption, logo }) => (
+                {cards.map(card => (
                   <TouchableOpacity
-                    key={title}
+                    key={card.title}
                     onPress={() => {
-                      this.props.navigation.push("Section");
+                      this.props.navigation.push("Section", {
+                        section: card
+                      });
                     }}>
                     <Card
-                      title={title}
-                      image={image}
-                      subtitle={subtitle}
-                      caption={caption}
-                      logo={logo}
+                      title={card.title}
+                      image={card.image}
+                      subtitle={card.subtitle}
+                      caption={card.caption}
+                      logo={card.logo}
                     />
                   </TouchableOpacity>
                 ))}
