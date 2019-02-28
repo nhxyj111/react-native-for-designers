@@ -1,8 +1,18 @@
 import React from "react";
-import { Image, StatusBar, Text, TouchableOpacity, View } from "react-native";
+import {
+  Image,
+  Linking,
+  StatusBar,
+  Text,
+  TouchableOpacity,
+  View,
+  WebView
+} from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { NavigationInjectedProps } from "react-navigation";
 import styled from "../styled-components";
+
+const webviewRef = React.createRef();
 
 class SectionScreen extends React.Component<NavigationInjectedProps> {
   static navigationOptions = {
@@ -44,12 +54,53 @@ class SectionScreen extends React.Component<NavigationInjectedProps> {
             />
           </CloseView>
         </TouchableOpacity>
+        <Content>
+          <WebView
+            source={{ html: htmlContent + htmlStyles }}
+            scalesPageToFit={false}
+            scrollEnabled={false}
+            ref="webview"
+            onNavigationStateChange={event => {
+              if (event.url && event.url !== "about:blank") {
+                (this.refs.webview as WebView).stopLoading();
+                Linking.openURL(event.url);
+              }
+            }}
+          />
+        </Content>
       </Container>
     );
   }
 }
 
 export default SectionScreen;
+
+const htmlContent = `
+<h2>This is a title</h2>
+<p>This is <strong>is</strong> a <a href="http://www.designcode.io">Go to DesignCode.io</a></p>
+<img src="https://source.unsplash.com/400x400/?car"/>
+`;
+
+const htmlStyles = `
+<style>
+* {
+  font-family: -apple-system, Roboto;
+  margin: 0;
+  padding: 0;
+}
+
+img {
+  width: 100%;
+  border-radius: 10px;
+  margin-top: 20px;
+}
+</style>
+`;
+
+const Content = styled(View)`
+  height: 100%;
+  padding: 20px;
+`;
 
 const Container = styled(View)`
   flex: 1;
