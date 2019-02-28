@@ -11,7 +11,10 @@ interface IProps {
 }
 
 const Card: React.FC<IProps> = ({ title, image, logo, caption, subtitle }) => (
-  <Container>
+  <Container
+    style={{
+      elevation: 10
+    }}>
     <Cover>
       <CoverBG source={image} />
       <Title>{title}</Title>
@@ -20,7 +23,7 @@ const Card: React.FC<IProps> = ({ title, image, logo, caption, subtitle }) => (
       <Logo source={logo} />
       <Wrapper>
         <Caption>{caption}</Caption>
-        <Subtitle>{subtitle}</Subtitle>
+        <Subtitle>{subtitle.toUpperCase()}</Subtitle>
       </Wrapper>
     </Content>
   </Container>
@@ -87,8 +90,9 @@ const Container = styled(View)`
   width: 315px;
   height: 280px;
   border-radius: 14px;
-  margin-left: 20px;
-  margin-top: 20px;
+  /* margin-left: 20px;
+  margin-top: 20px; */
+  margin: 20px 10px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
 `;
 

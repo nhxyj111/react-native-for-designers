@@ -1,6 +1,7 @@
 import React from "react";
 import {
   Animated,
+  Platform,
   SafeAreaView,
   ScrollView,
   StatusBar,
@@ -46,7 +47,10 @@ class HomeScreen extends React.Component<
   };
 
   componentDidMount() {
-    StatusBar.setBarStyle("dark-content");
+    StatusBar.setBarStyle("dark-content", true);
+    if (Platform.OS === "android") {
+      StatusBar.setBarStyle("light-content", true);
+    }
   }
 
   componentDidUpdate() {
@@ -63,7 +67,7 @@ class HomeScreen extends React.Component<
       Animated.spring(this.state.opacity, {
         toValue: 0.5
       }).start();
-      StatusBar.setBarStyle("light-content");
+      StatusBar.setBarStyle("light-content", true);
     }
 
     if (this.props.status === MenuActions.MENU_CLOSE) {
@@ -74,7 +78,7 @@ class HomeScreen extends React.Component<
       Animated.spring(this.state.opacity, {
         toValue: 1
       }).start();
-      StatusBar.setBarStyle("dark-content");
+      StatusBar.setBarStyle("dark-content", true);
     }
   };
 
@@ -137,7 +141,8 @@ class HomeScreen extends React.Component<
                 horizontal={true}
                 showsHorizontalScrollIndicator={false}
                 style={{
-                  paddingBottom: 30
+                  paddingBottom: 30,
+                  paddingLeft: 10
                 }}>
                 {cards.map(card => (
                   <TouchableOpacity

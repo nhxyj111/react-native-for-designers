@@ -12,7 +12,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import { NavigationInjectedProps } from "react-navigation";
 import styled from "../styled-components";
 
-const webviewRef = React.createRef();
+// const webviewRef = React.createRef();
 
 class SectionScreen extends React.Component<NavigationInjectedProps> {
   static navigationOptions = {
